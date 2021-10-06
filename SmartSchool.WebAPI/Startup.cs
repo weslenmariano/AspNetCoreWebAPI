@@ -13,6 +13,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SmartSchool.WebAPI.Data;
 
+/*
+Caso nao esteja habilitado o autocomplite
+1 - Ctrl + Shift + p
+2 - Write "OmniSharp: Select Project" and press Enter.
+3 - Choose the solution workspace entry.
+
+*/
 namespace SmartSchool.WebAPI
 {
     public class Startup
@@ -30,6 +37,12 @@ namespace SmartSchool.WebAPI
             services.AddDbContext<SmartContext>(
                 context => context.UseSqlite(Configuration.GetConnectionString("Default"))
             );
+
+            // services.AddSingleton<IRepository, Repository>();  Todas as instancias/chamadas serao utilizadas com o mesmo recurso (é compartilhado a mesma informaçoes com todas as requisiçoes)
+            //services.AddTransient<IRepository, Repository>(); // A cada requisição será criada uma nova instancia (nunca usa a mesma instancia nas requisiçoes)
+            services.AddScoped<IRepository, Repository>(); // Se em mais de uma requisição utilizar a mesma dependencia sera utilizada a mesma instancia para todas as que necessitam utiliza-la
+            
+
             services.AddControllers();
         }
 
