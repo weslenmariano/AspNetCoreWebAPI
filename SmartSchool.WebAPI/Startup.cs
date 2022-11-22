@@ -43,7 +43,9 @@ namespace SmartSchool.WebAPI
             services.AddScoped<IRepository, Repository>(); // Se em mais de uma requisição utilizar a mesma dependencia sera utilizada a mesma instancia para todas as que necessitam utiliza-la
             
 
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson(
+                        opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); // IGNORA LOOP INFINITO E PEGA SOMENTE O PRIMEIRO NIVEL.. add pelo csproj (o erro causado no browser era: System.Text.Json.JsonException: A possible object cycle was detected which is not supported)
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

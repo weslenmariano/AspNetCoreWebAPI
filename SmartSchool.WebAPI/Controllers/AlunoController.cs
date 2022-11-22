@@ -11,40 +11,54 @@ namespace SmartSchool.WebAPI.Controllers
     [Route("api/[controller]")]
     public class AlunoController : ControllerBase
     {
-        private readonly SmartContext _context;
+       // private readonly SmartContext _context;
         public readonly IRepository _repo;
 
+        //v2 do desenvolvimento
+        /*
         public AlunoController(SmartContext context,
                                 IRepository repo)
         {
             _repo = repo;
             _context = context;
         }
+        */
+
+        public AlunoController(IRepository repo)
+        {
+            _repo = repo;
+        }
+
 
         
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_context.Alunos);
+            //return Ok(_context.Alunos);
+            var result = _repo.GetAllAlunos(true);
+            return Ok(result);
         }
 
-        //api/aluno/byId/1
-        [HttpGet("byId/{id}")]
+        //api/aluno/1
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
+            //var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
+            var aluno = _repo.GetAlunoById(id, false);
             if (aluno == null) return BadRequest("O aluno nao foi encontrado!");
             return Ok(aluno);
         }
 
         //api/aluno/byName?nome=Marta&sobrenome=Kente
+        //v2 desenvolvimento
+        /*
         [HttpGet("ByName")]
         public IActionResult GetByName(string nome, string sobrenome)
         {
             var aluno = _context.Alunos.FirstOrDefault(a => a.Nome.Contains(nome) && a.Sobrenome.Contains(sobrenome));
             if (aluno == null) return BadRequest("O aluno nao foi encontrado!");
             return Ok(aluno);
-        }
+        } */
         //api/aluno
         [HttpPost]
         public IActionResult Post(Aluno aluno)
@@ -68,7 +82,8 @@ namespace SmartSchool.WebAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, Aluno aluno)
         {
-            var alu = _context.Alunos.AsNoTracking().FirstOrDefault(a => a.Id == id);
+            //var alu = _context.Alunos.AsNoTracking().FirstOrDefault(a => a.Id == id);
+            var alu = _repo.GetAlunoById(id);
             if (alu == null) return BadRequest("O aluno nao foi encontrado!");
 
             _repo.Update(aluno);
@@ -89,7 +104,8 @@ namespace SmartSchool.WebAPI.Controllers
         [HttpPatch("{id}")]
         public IActionResult Patch(int id, Aluno aluno)
         {
-            var alu = _context.Alunos.AsNoTracking().FirstOrDefault(a => a.Id == id);
+            //var alu = _context.Alunos.AsNoTracking().FirstOrDefault(a => a.Id == id);
+            var alu = _repo.GetAlunoById(id);
             if (alu == null) return BadRequest("O aluno nao foi encontrado!");
 
             _repo.Update(aluno);
@@ -110,7 +126,8 @@ namespace SmartSchool.WebAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
+            //var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
+            var aluno = _repo.GetAlunoById(id);
             if (aluno == null) return BadRequest("O aluno nao foi encontrado!");
 
             _repo.Delete(aluno);
