@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,9 +35,13 @@ namespace SmartSchool.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // injeção de dependencia para o projeto...
+            
             services.AddDbContext<SmartContext>(
                 context => context.UseSqlite(Configuration.GetConnectionString("Default"))
             );
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // services.AddSingleton<IRepository, Repository>();  Todas as instancias/chamadas serao utilizadas com o mesmo recurso (é compartilhado a mesma informaçoes com todas as requisiçoes)
             //services.AddTransient<IRepository, Repository>(); // A cada requisição será criada uma nova instancia (nunca usa a mesma instancia nas requisiçoes)
