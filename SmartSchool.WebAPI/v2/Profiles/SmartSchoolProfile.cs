@@ -1,8 +1,9 @@
 using AutoMapper;
-using SmartSchool.WebAPI.Dtos;
+using SmartSchool.WebAPI.v2.Dtos;
 using SmartSchool.WebAPI.Models;
+using SmartSchool.WebAPI.Helpers;
 
-namespace SmartSchool.WebAPI.Helpers
+namespace SmartSchool.WebAPI.v2.Profiles
 {
     public class SmartSchoolProfile : Profile
     {
@@ -24,17 +25,7 @@ namespace SmartSchool.WebAPI.Helpers
             // Para gravacao de um novo aluno, com mapeamento bi-direcional 
             CreateMap<Aluno, AlunoRegistrarDto>().ReverseMap();
 
-            /////////////PROFESSOR////////////////
-            //-------origem , destino
-            CreateMap<Professor, ProfessorDto>()
-                .ForMember(
-                    destino => destino.Nome,
-                    opt => opt.MapFrom(origem => $"{origem.Nome} {origem.Sobrenome}")
-                )               ;  
-            //
-            CreateMap<ProfessorDto, Professor>();
-            // Para gravacao de um novo aluno, com mapeamento bi-direcional 
-            CreateMap<Professor, ProfessorRegistrarDto>().ReverseMap();
+            
         }
     }
 }

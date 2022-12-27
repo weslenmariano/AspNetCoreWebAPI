@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmartSchool.WebAPI</name>
+    </assembly>
+    <members>
+        <member name="T:SmartSchool.WebAPI.v1.Controllers.AlunoController">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:SmartSchool.WebAPI.v1.Controllers.AlunoController._repo">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:SmartSchool.WebAPI.v1.Controllers.AlunoController.Get">
+            <summary>
+            Método responsavel para retornar todos os meus alunos
+            </summary>        
+        </member>
+        <member name="M:SmartSchool.WebAPI.v1.Controllers.AlunoController.GetRegister">
+            <summary>
+            Método resonsável por retornar apenas um único AlunoDTO
+            </summary>
+        </member>
+        <member name="M:SmartSchool.WebAPI.v1.Controllers.AlunoController.GetById(System.Int32)">
+            <summary>
+            Método responsável por reternar apenas um aluno por meio do id do Código ID
+            </summary>
+        </member>
+        <member name="T:SmartSchool.WebAPI.v2.Controllers.AlunoController">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:SmartSchool.WebAPI.v2.Controllers.AlunoController._repo">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:SmartSchool.WebAPI.v2.Controllers.AlunoController.Get">
+            <summary>
+            Método responsavel para retornar todos os meus alunos
+            </summary>        
+        </member>
+        <member name="M:SmartSchool.WebAPI.v2.Controllers.AlunoController.GetById(System.Int32)">
+            <summary>
+            Método responsável por reternar apenas um aluno por meio do id do Código ID
+            </summary>
+        </member>
+    </members>
+</doc>

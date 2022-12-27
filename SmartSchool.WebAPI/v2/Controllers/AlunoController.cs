@@ -4,19 +4,29 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.WebAPI.Data;
-using SmartSchool.WebAPI.Dtos;
+using SmartSchool.WebAPI.v2.Dtos;
 using SmartSchool.WebAPI.Models;
 
-namespace SmartSchool.WebAPI.Controllers
+namespace SmartSchool.WebAPI.v2.Controllers
 {
+    /// <summary>
+    ///
+    /// </summary>
+
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class AlunoController : ControllerBase
     {
+        /// <summary>
+        ///
+        /// </summary>
        // private readonly SmartContext _context;
         public readonly IRepository _repo;
         private readonly IMapper _mapper;
 
+        // CTRL+SHIFT+P para abrir o command do vscode
+        
         //v2 do desenvolvimento
         /*
         public AlunoController(SmartContext context,
@@ -34,7 +44,9 @@ namespace SmartSchool.WebAPI.Controllers
         }
 
 
-        
+        /// <summary>
+        /// Método responsavel para retornar todos os meus alunos
+        /// </summary>        
         [HttpGet]
         public IActionResult Get()
         {
@@ -62,14 +74,11 @@ namespace SmartSchool.WebAPI.Controllers
 
             return Ok(_mapper.Map<IEnumerable<AlunoDto>>(alunos));
         }
+       
 
-        [HttpGet("getRegister")]
-        public IActionResult GetRegister()
-        {
-            return Ok(new AlunoRegistrarDto());
-        }
-
-
+        /// <summary>
+        /// Método responsável por reternar apenas um aluno por meio do id do Código ID
+        /// </summary>
         //api/aluno/1
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
@@ -139,31 +148,7 @@ namespace SmartSchool.WebAPI.Controllers
             return Ok(aluno);
             */
         }
-        //atualizar parcialmente
-        //api/aluno
-        [HttpPatch("{id}")]
-        public IActionResult Patch(int id, AlunoRegistrarDto model)
-        {
-            //var alu = _context.Alunos.AsNoTracking().FirstOrDefault(a => a.Id == id);
-            var aluno = _repo.GetAlunoById(id);
-            if (aluno == null) return BadRequest("O aluno nao foi encontrado!");
-
-             _mapper.Map(model, aluno);
-
-            _repo.Update(aluno);
-            if(_repo.SaveChanges())
-            {
-                //return Ok(aluno);
-                return Created($"/api/aluno/{model.Id}", _mapper.Map<AlunoDto>(aluno));
-            }
-            
-            return BadRequest("Aluno não atualizado.");
-            /* VERSAO 1 DO DESENVOLVIMENTO, SEM INTERFACE E REPOSITORIO (USANDO O CONTEXTO DIRETAMENTE)
-            _context.Update(aluno);
-            _context.SaveChanges();
-            return Ok(aluno);
-            */
-        }
+        
 
         //api/aluno
         [HttpDelete("{id}")]
