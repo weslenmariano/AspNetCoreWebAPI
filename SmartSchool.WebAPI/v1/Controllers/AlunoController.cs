@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using SmartSchool.WebAPI.Data;
 using SmartSchool.WebAPI.v1.Dtos;
 using SmartSchool.WebAPI.Models;
+using System.Threading.Tasks;
+using SmartSchool.WebAPI.Helpers;
 
 namespace SmartSchool.WebAPI.v1.Controllers
 {
@@ -48,10 +50,10 @@ namespace SmartSchool.WebAPI.v1.Controllers
         /// Método responsavel para retornar todos os meus alunos
         /// </summary>        
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get([FromQuery]PageParams pageParams)
         {
             //return Ok(_context.Alunos);
-            var alunos = _repo.GetAllAlunos(true);
+            var alunos = await _repo.GetAllAlunosAsync(pageParams, true);
             /* // substituido pelo auto mapper...
             var alunosRetorno = new List<AlunoDto>();
 
@@ -70,9 +72,11 @@ namespace SmartSchool.WebAPI.v1.Controllers
              return Ok(alunosRetorno);
             */
 
+            var alunosResult = _mapper.Map<IEnumerable<AlunoDto>>(alunos);
 
+            Response.AddPatination(alunos.CurrentPage, alunos.PageSize, alunos.TotalCount, alunos.TotalPages);
 
-            return Ok(_mapper.Map<IEnumerable<AlunoDto>>(alunos));
+            return Ok(alunosResult);
         }
         /// <summary>
         /// Método resonsável por retornar apenas um único AlunoDTO
