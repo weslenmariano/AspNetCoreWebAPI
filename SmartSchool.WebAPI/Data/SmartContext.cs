@@ -1,8 +1,36 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.WebAPI.Models;
 
+/*para subir os containers com base na configuração dos arquivos do docker
+docker-compose up -d
+
+criando um container mysql para docker
+docker container run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=112233 -e bind-address:0.0.0.0 -v smartschooldb:/var/lib/mysql -e MYSQL_ROOT_HOST='%' 
+mysql:5.7
+
+criando um volume par anao perder os dados do container (caso precise remover)
+docker volume create smartschooldb
+
+apaga todos os volumes existentes
+docker volume prune
+
+lista todos os volumes
+docker volume ls
+
+executando um container no terminal
+docker container exec -it smartschool bash   
+
+criando um container com base em uma imagem
+docker container run --name smartschool -it mcr.microsoft.com/dotnet/core/sdk:3.1
+
+imagens podem ser encontradas no docker hub
+
+para baixar uma imagem docker (nome imagem : versao)
+docker pull mysql:5.7    
+*/
 namespace SmartSchool.WebAPI.Data
 {
     public class SmartContext : DbContext
@@ -58,13 +86,13 @@ namespace SmartSchool.WebAPI.Data
             
             builder.Entity<Aluno>()
                 .HasData(new List<Aluno>(){
-                    new Aluno(1,1, "Marta", "Kent", "33225555", DateTime.Parse("28/05/2005")),
-                    new Aluno(2,2, "Paula", "Isabela", "3354288", DateTime.Parse("28/05/2005")),
-                    new Aluno(3,3, "Laura", "Antonia", "55668899", DateTime.Parse("28/05/2005")),
-                    new Aluno(4,4, "Luiza", "Maria", "6565659", DateTime.Parse("28/05/2005")),
-                    new Aluno(5,5, "Lucas", "Machado", "565685415", DateTime.Parse("28/05/2005")),
-                    new Aluno(6,6, "Pedro", "Alvares", "456454545", DateTime.Parse("28/05/2005")),
-                    new Aluno(7,7, "Paulo", "José", "9874512", DateTime.Parse("28/05/2005"))
+                    new Aluno(1,1, "Marta", "Kent", "33225555", DateTime.ParseExact("28/05/2006", "dd/MM/yyyy", CultureInfo.InvariantCulture)),
+                    new Aluno(2,2, "Paula", "Isabela", "3354288", DateTime.ParseExact("28/05/2005", "dd/MM/yyyy", CultureInfo.InvariantCulture)),
+                    new Aluno(3,3, "Laura", "Antonia", "55668899", DateTime.ParseExact("28/05/2004", "dd/MM/yyyy", CultureInfo.InvariantCulture)),
+                    new Aluno(4,4, "Luiza", "Maria", "6565659", DateTime.ParseExact("28/05/2003", "dd/MM/yyyy", CultureInfo.InvariantCulture)),
+                    new Aluno(5,5, "Lucas", "Machado", "565685415", DateTime.ParseExact("28/05/2002", "dd/MM/yyyy", CultureInfo.InvariantCulture)),
+                    new Aluno(6,6, "Pedro", "Alvares", "456454545", DateTime.ParseExact("28/05/2001", "dd/MM/yyyy", CultureInfo.InvariantCulture)),
+                    new Aluno(7,7, "Paulo", "José", "9874512", DateTime.ParseExact("28/05/2000", "dd/MM/yyyy", CultureInfo.InvariantCulture))
                 });
 
             builder.Entity<AlunoDisciplina>()

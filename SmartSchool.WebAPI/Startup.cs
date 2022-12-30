@@ -41,7 +41,7 @@ namespace SmartSchool.WebAPI
             // injeção de dependencia para o projeto...
 
             services.AddDbContext<SmartContext>(
-                context => context.UseSqlite(Configuration.GetConnectionString("Default"))
+                context => context.UseMySql(Configuration.GetConnectionString("MySqlConnection"))
             );
 
             services.AddControllers()
